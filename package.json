@@ -1,0 +1,38 @@
+{
+  "name": "pb-session",
+  "version": "1.0.0",
+  "description": "PackBud session module for Angular.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roman-lyubimov/pb-session.git"
+  },
+  "keywords": [
+    "angular",
+    "authentication",
+    "oauth2",
+    "module"
+  ],
+  "author": "Roman Lyubimov <raman@cmstuning.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/roman-lyubimov/pb-session/issues"
+  },
+  "homepage": "https://github.com/roman-lyubimov/pb-session#readme",
+  "devDependencies": {
+    "@angular/common": "^4.0.0",
+    "@angular/core": "^4.0.0",
+    "@types/chai": "^4.0.5",
+    "@types/mocha": "^2.2.44",
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "reflect-metadata": "^0.1.10",
+    "rxjs": "^5.5.2"
+  },
+  "dependencies": {
+    "query-string": "^5.0.1"
+  }
+}

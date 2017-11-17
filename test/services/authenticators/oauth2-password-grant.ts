@@ -1,11 +1,16 @@
 import 'reflect-metadata';
 import {Observable} from 'rxjs/Observable';
 import {OAuth2PasswordGrant} from '../../../src/services/session/authenticators/oauth2-password-grant';
-import {expect} from 'chai';
+import * as chai from 'chai';
+import * as spies from 'chai-spies';
 
 import * as queryString from 'query-string';
 
 import 'rxjs/add/observable/of';
+
+chai.use(spies);
+
+const {expect} = chai;
 
 describe('OAuth2PasswordGrant', () => {
   describe('#authenticate', () => {
@@ -25,7 +30,7 @@ describe('OAuth2PasswordGrant', () => {
 
       authenticator.clientId = '123hh';
       authenticator.clientSecret = '783ff';
-      authenticator.serverTokenEndpoint = 'https://packbud.com/oauth2/token'
+      authenticator.serverTokenEndpoint = 'https://packbud.com/oauth2/token';
 
       authenticator.authenticate({username: 'john', password: '1234'}).subscribe((result) => {
           done();
@@ -129,6 +134,105 @@ describe('OAuth2PasswordGrant', () => {
         done();
       });
     });
+
+    it('Should update access token, refresh token and "expires in" according to the server response.', (done) => {
+      const authenticator = new OAuth2PasswordGrant(<any>{
+        post(url, body, options): Observable<any> {
+          return Observable.of({
+              'access_token': 'xf2zj',
+              'expires_in': 600
+          });
+        }
+      });
+
+      authenticator.clientId = '123hh';
+      authenticator.clientSecret = '783ff';
+      authenticator.serverTokenEndpoint = 'https://packbud.com/oauth2/token';
+
+      const data = {
+        'access_token': 'xvf33',
+        'refresh_token': 'zzdd3',
+        'expires_in': 3600
+      };
+
+      authenticator.refresh(data).subscribe((result) => {
+        expect(result).to.be.an('object').that.has.any.keys('access_token', 'refresh_token', 'expires_in', 'expires_at');
+        expect(result['access_token']).to.be.equal('xf2zj');
+        expect(result['expires_in']).to.be.equal(600);
+        done();
+      });
+    });
+  });
+
+  describe('#refresh', () => {
+    it('Should immediately return false if there are no session data.', (done) => {
+      const authenticator = new OAuth2PasswordGrant(null);
+      authenticator.restore({}).subscribe((success) => {
+        expect(success).to.not.be.true;
+        done();
+      });
+    });
+
+    it('Should call session data refresh of session data if access token lifetime is expired.', (done) => {
+      const post = chai.spy(() => {
+        return Observable.of({
+          'access_token': 'xf2zj',
+          'expires_in': 3600
+        })
+      });
+
+      const authenticator = new OAuth2PasswordGrant(<any>{post});
+
+      authenticator.clientId = '123hh';
+      authenticator.clientSecret = '783ff';
+      authenticator.serverTokenEndpoint = 'https://packbud.com/oauth2/token';
+
+      const data = {
+        'access_token': 'xvf33',
+        'refresh_token': 'zzdd3',
+        'expires_in': 3600,
+        'expires_at': Date.now() - 1
+      };
+
+      authenticator.restore(data).subscribe((result) => {
+        expect(post).to.have.been.called.once;
+        done();
+      });
+    });
+
+    it('Should immediately return current session data if them are valid and access token lifetime is not expired.', (done) => {
+      const post = chai.spy(() => {
+        return Observable.of({
+          'access_token': 'xf2zj',
+          'expires_in': 3600
+        })
+      });
+
+      const authenticator = new OAuth2PasswordGrant(<any>{post});
+
+      authenticator.clientId = '123hh';
+      authenticator.clientSecret = '783ff';
+      authenticator.serverTokenEndpoint = 'https://packbud.com/oauth2/token';
+
+      const expiresAt = Date.now() + 3600;
+
+      const data = {
+        'access_token': 'xvf33',
+        'refresh_token': 'zzdd3',
+        'expires_in': 3600,
+        'expires_at': expiresAt
+      };
+
+      authenticator.restore(data).subscribe((result) => {
+        expect(post).to.not.have.been.called;
+        expect(result).to.be.an('object').that.has.any.keys('access_token', 'refresh_token', 'expires_in', 'expires_at');
+        expect(result['access_token']).to.be.equal('xvf33');
+        expect(result['refresh_token']).to.be.equal('zzdd3');
+        expect(result['expires_in']).to.be.equal(3600);
+        expect(result['expires_at']).to.be.equal(expiresAt);
+        done();
+      });
+    });
   });
 
   describe('#request', () => {
@@ -195,14 +299,14 @@ describe('OAuth2PasswordGrant', () => {
       expect(authenticator.isExpired({})).to.be.true;
     });
 
-    it('Returns true if "expires_at" >= Date.now()', () => {
+    it('Returns true if "expires_at" < Date.now()', () => {
       const authenticator = new OAuth2PasswordGrant(null);
-      expect(authenticator.isExpired({'expires_at': Date.now()})).to.be.true;
+      expect(authenticator.isExpired({'expires_at': Date.now() - 1})).to.be.true;
     });
 
-    it('Returns false if "expires_at" < Date.now()', () => {
+    it('Returns false if "expires_at" > Date.now()', () => {
       const authenticator = new OAuth2PasswordGrant(null);
-      expect(authenticator.isExpired({'expires_at': Date.now() - 1}));
+      expect(authenticator.isExpired({'expires_at': Date.now() + 1}));
     })
   });
 

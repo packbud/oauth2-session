@@ -1,6 +1,6 @@
 import {Observable} from 'rxjs/Observable';
 import {SessionStore} from './session-store';
-import {SessionData} from '../session-data.interface';
+import {SessionData} from '../session-data';
 
 import 'rxjs/add/observable/of';
 

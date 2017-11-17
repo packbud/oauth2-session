@@ -62,7 +62,13 @@ export class OAuth2PasswordGrant extends BaseAuthenticator {
   }
 
   restore(data: any): Observable<any> {
-    return null;
+    if (this.isValid(data)) {
+      if (this.isExpired(data)) {
+        return this.refresh(data);
+      }
+      return Observable.of(data);
+    }
+    return Observable.of(null);
   }
 
   request(url, params: {[p: string]: string} = {}): Observable<any> {
@@ -79,7 +85,7 @@ export class OAuth2PasswordGrant extends BaseAuthenticator {
   }
 
   isExpired(data: any): boolean {
-    return !data['expires_at'] || data['expires_at'] >= Date.now();
+    return !data['expires_at'] || data['expires_at'] < Date.now();
   }
 
   isValid(data: any): boolean {

@@ -1,7 +1,7 @@
 {
   "name": "pb-session",
   "version": "1.0.0",
-  "description": "PackBud session module for Angular.",
+  "description": "OAuth2 session module for Angular.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

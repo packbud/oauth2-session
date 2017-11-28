@@ -1,5 +1,5 @@
 import {NgModule, Optional, SkipSelf} from '@angular/core'
-import {ClientCredentials, Session, SessionStore} from './services/session';
+import {Session, SessionOptions} from './services/session';
 
 @NgModule({
   exports: [Session]
@@ -11,11 +11,11 @@ export class SessionModule {
     }
   }
 
-  static forRoot(credentials: ClientCredentials, store: SessionStore) {
+  static forRoot(options: SessionOptions) {
     return {
       ngModule: SessionModule,
       providers: [
-        {provide: Session, useValue: [credentials, store]}
+        {provide: Session, useValue: options}
       ]
     };
   }

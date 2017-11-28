@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/roman-lyubimov/pb-session.git"
+    "url": "git+https://github.com/packbud/oauth2-session.git"
   },
   "keywords": [
     "angular",
@@ -19,9 +19,9 @@
   "author": "Roman Lyubimov <raman@cmstuning.net>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/roman-lyubimov/pb-session/issues"
+    "url": "https://github.com/packbud/oauth2-session/issues"
   },
-  "homepage": "https://github.com/roman-lyubimov/pb-session#readme",
+  "homepage": "https://github.com/packbud/oauth2-session#readme",
   "devDependencies": {
     "@angular/common": "^4.0.0",
     "@angular/core": "^4.0.0",

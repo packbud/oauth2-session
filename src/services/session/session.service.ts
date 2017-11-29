@@ -1,8 +1,9 @@
 import {Injectable, Optional} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
-import {Authenticator} from './authenticators/authenticator';
-import {Authorizer} from './authorizers/authorizer';
+import {Authenticator} from './authenticators';
+import {Authorizer} from './authorizers';
 import {PlainHeaders} from './plain-headers';
 import {SessionData} from './session-data';
 import {SessionOptions} from './session-options';
@@ -28,8 +29,9 @@ export class Session {
   refresh$: Observable<any>;
   store: SessionStore;
 
-  constructor(@Optional() options: SessionOptions) {
-    this.authenticator = options.authenticator;
+  constructor(httpClient: HttpClient, @Optional() options: SessionOptions) {
+    this.authenticator = typeof options.authenticator === 'function' ?
+      options.authenticator(httpClient) : options.authenticator;
     this.authorizer = options.authorizer;
     this.store = options.store;
 

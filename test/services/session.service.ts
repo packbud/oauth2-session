@@ -20,7 +20,7 @@ describe('Session', () => {
     authorizer = new TestAuthorizer();
     store = new TestStorage();
 
-    session = new Session({authenticator, authorizer, store})
+    session = new Session(null,{authenticator, authorizer, store})
   });
 
   describe('#constructor', () => {

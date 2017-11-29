@@ -14,7 +14,7 @@ export class SessionModule {
   static forRoot(options: SessionOptions) {
     return {
       ngModule: SessionModule,
-      exports: Session,
+      exports: [Session],
       providers: [
         {provide: Session, useValue: options}
       ]

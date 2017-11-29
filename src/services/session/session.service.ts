@@ -1,5 +1,4 @@
 import {Injectable, Optional} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
 import {Authenticator} from './authenticators';
@@ -7,7 +6,7 @@ import {Authorizer} from './authorizers';
 import {PlainHeaders} from './plain-headers';
 import {SessionData} from './session-data';
 import {SessionOptions} from './session-options';
-import {SessionStore} from './session-stores/session-store';
+import {SessionStore} from './session-stores';
 import {UserCredentials} from './user-credentials';
 
 import 'rxjs/add/observable/of';
@@ -20,22 +19,18 @@ import 'rxjs/add/operator/publishReplay';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/take';
 
-@Injectable()
+// @Injectable()
 export class Session {
-  authenticator: Authenticator;
+  // authenticator: Authenticator;
   authenticated: Observable<boolean>;
-  authorizer: Authorizer;
+  // authorizer: Authorizer;
   data$: ReplaySubject<SessionData>;
   refresh$: Observable<any>;
-  store: SessionStore;
+  // store: SessionStore;
 
-  constructor(httpClient: HttpClient, @Optional() options: SessionOptions) {
-    this.authenticator = typeof options.authenticator === 'function' ?
-      options.authenticator(httpClient) : options.authenticator;
-    this.authorizer = typeof options.authorizer === 'function' ?
-      options.authorizer() : options.authorizer;
-    this.store = typeof options.store === 'function' ?
-      options.store() : options.store;
+  constructor(private authenticator: Authenticator,
+              private authorizer: Authorizer,
+              private store: SessionStore) {
 
     this.data$ = new ReplaySubject();
     this.authenticated = this.data$.map(Session.isAuthenticatedHelper);

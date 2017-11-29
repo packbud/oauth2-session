@@ -32,8 +32,10 @@ export class Session {
   constructor(httpClient: HttpClient, @Optional() options: SessionOptions) {
     this.authenticator = typeof options.authenticator === 'function' ?
       options.authenticator(httpClient) : options.authenticator;
-    this.authorizer = options.authorizer;
-    this.store = options.store;
+    this.authorizer = typeof options.authorizer === 'function' ?
+      options.authorizer() : options.authorizer;
+    this.store = typeof options.store === 'function' ?
+      options.store() : options.store;
 
     this.data$ = new ReplaySubject();
     this.authenticated = this.data$.map(Session.isAuthenticatedHelper);

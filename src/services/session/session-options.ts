@@ -1,9 +1,9 @@
 import {Authenticator, AuthenticatorFactory} from './authenticators';
-import {Authorizer} from './authorizers';
-import {SessionStore} from './session-stores/session-store';
+import {Authorizer, AuthorizerFactory} from './authorizers';
+import {SessionStore, StoreFactory} from './session-stores';
 
 export interface SessionOptions {
   authenticator: Authenticator|AuthenticatorFactory;
-  authorizer: Authorizer;
-  store: SessionStore;
+  authorizer: Authorizer|AuthorizerFactory;
+  store: SessionStore|StoreFactory;
 }

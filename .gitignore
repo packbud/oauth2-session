@@ -6,3 +6,6 @@ src/**/*.js
 src/**/*.map
 test/**/*.js
 test/**/*.map
+
+index.js
+index.js.map

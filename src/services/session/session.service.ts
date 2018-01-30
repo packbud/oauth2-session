@@ -60,9 +60,8 @@ export class Session {
   }
 
   authorize(headers: PlainHeaders = {}): Observable<PlainHeaders> {
-    console.log("Authorize!");
-
     return this.data$.take(1)
+      .do((data) => console.log("Authorize with", JSON.stringify(data)))
       .switchMap((data) => {
         if (!Session.isAuthenticatedHelper(data)) {
           return Observable.throw(new Error('Session must be authenticated before you can authorize headers.'));

@@ -60,6 +60,8 @@ export class Session {
   }
 
   authorize(headers: PlainHeaders = {}): Observable<PlainHeaders> {
+    console.log("Authorize!");
+
     return this.data$.take(1)
       .switchMap((data) => {
         if (!Session.isAuthenticatedHelper(data)) {

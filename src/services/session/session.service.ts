@@ -108,6 +108,6 @@ export class Session {
   }
 
   static isAuthenticatedHelper(data: SessionData): boolean {
-    return !!data.content;
+    return (data && data.content);
   }
 }

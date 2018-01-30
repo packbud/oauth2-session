@@ -35,9 +35,7 @@ export class Session {
     this.data$ = new ReplaySubject(1);
     this.authenticated = this.data$.map(Session.isAuthenticatedHelper);
 
-    this.data$
-      .do((data) => console.log("Persist", JSON.stringify(data)))
-      .subscribe((data) => this.store.persist(data));
+    this.data$.subscribe((data) => this.store.persist(data));
   }
 
   get onAuthenticated(): Observable<boolean> {
@@ -56,14 +54,12 @@ export class Session {
         }
         return this.authenticator.authenticate(credentials);
       })
-      .do((content) => console.log("Debug:", JSON.stringify(content)))
       .do((content) => this.data$.next({content}))
       .mapTo(true);
   }
 
   authorize(headers: PlainHeaders = {}): Observable<PlainHeaders> {
     return this.data$.take(1)
-      .do((data) => console.log("Authorize with", JSON.stringify(data)))
       .switchMap((data) => {
         if (!Session.isAuthenticatedHelper(data)) {
           return Observable.throw(new Error('Session must be authenticated before you can authorize headers.'));

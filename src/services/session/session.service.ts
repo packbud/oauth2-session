@@ -35,7 +35,9 @@ export class Session {
     this.data$ = new ReplaySubject();
     this.authenticated = this.data$.map(Session.isAuthenticatedHelper);
 
-    this.data$.subscribe((data) => this.store.persist(data));
+    this.data$
+      .do((data) => console.log("Persist", JSON.stringify(data)))
+      .subscribe((data) => this.store.persist(data));
   }
 
   get onAuthenticated(): Observable<boolean> {

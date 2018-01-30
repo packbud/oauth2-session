@@ -32,7 +32,7 @@ export class Session {
               private authorizer: Authorizer,
               private store: SessionStore) {
 
-    this.data$ = new ReplaySubject();
+    this.data$ = new ReplaySubject(1);
     this.authenticated = this.data$.map(Session.isAuthenticatedHelper);
 
     this.data$

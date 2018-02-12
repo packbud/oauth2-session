@@ -23,15 +23,8 @@
   },
   "homepage": "https://github.com/packbud/oauth2-session#readme",
   "devDependencies": {
-    "@angular/common": "^4.0.0",
-    "@angular/core": "^4.0.0",
-    "@types/chai": "^4.0.5",
-    "@types/chai-spies": "0.0.0",
-    "@types/mocha": "^2.2.44",
-    "chai": "^4.1.2",
-    "chai-spies": "^0.7.1",
-    "mocha": "^4.0.1",
-    "reflect-metadata": "^0.1.10",
+    "@angular/common": "^5.0.0",
+    "@angular/core": "^5.0.0",
     "rxjs": "^5.5.2"
   },
   "dependencies": {

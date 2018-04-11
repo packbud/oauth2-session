@@ -1,0 +1,33 @@
+import { Observable } from 'rxjs/Observable';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { Authenticator } from './authenticators';
+import { Authorizer } from './authorizers';
+import { PlainHeaders } from './plain-headers';
+import { SessionData } from './session-data';
+import { SessionStore } from './session-stores';
+import { UserCredentials } from './user-credentials';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/finally';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mapTo';
+import 'rxjs/add/operator/publishReplay';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/take';
+export declare class Session {
+    private authenticator;
+    private authorizer;
+    private store;
+    authenticated: Observable<boolean>;
+    data$: ReplaySubject<SessionData>;
+    refresh$: Observable<any>;
+    constructor(authenticator: Authenticator, authorizer: Authorizer, store: SessionStore);
+    readonly onAuthenticated: Observable<boolean>;
+    readonly isAuthenticated: Observable<boolean>;
+    authenticate(credentials: UserCredentials): Observable<boolean>;
+    authorize(headers?: PlainHeaders): Observable<PlainHeaders>;
+    invalidate(): Observable<boolean>;
+    restore(): Observable<boolean>;
+    static isAuthenticatedHelper(data: SessionData): boolean;
+}

@@ -21,7 +21,7 @@
   "jsnext:main": "oauth2-session.js",
   "typings": "oauth2-session.d.ts",
   "dependencies": {
-    "query-string": "^5.0.0 | ^6.0.0"
+    "query-string": "^6.0.0"
   },
   "peerDependencies": {
     "@angular/core": "^4.0.0 | ^5.0.0",

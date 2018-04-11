@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/OAuth2 session.iml" filepath="$PROJECT_DIR$/.idea/OAuth2 session.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/_oauth2-session.iml" filepath="$PROJECT_DIR$/.idea/_oauth2-session.iml" />
     </modules>
   </component>
 </project>

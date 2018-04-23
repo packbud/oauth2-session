@@ -358,7 +358,7 @@ var Session = (function () {
             }
             return Observable.Observable.of(null);
         })
-            .do(function (content) { return _this.data$.next({ content: content }); })
+            .do(function (content) { return _this.data$.next({ content: content }); }, function (error) { return _this.data$.next({ content: null }); })
             .map(function (content) { return !!content; });
     };
     /**

@@ -366,7 +366,7 @@ var Session = (function () {
             }
             return Observable$1.of(null);
         })
-            .do(function (content) { return _this.data$.next({ content: content }); })
+            .do(function (content) { return _this.data$.next({ content: content }); }, function (error) { return _this.data$.next({ content: null }); })
             .map(function (content) { return !!content; });
     };
     /**
